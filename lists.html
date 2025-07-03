@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Listes - ShuffleMyTeam</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/lists.css">
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1>Mes Listes</h1>
+            <div class="header-actions">
+                <a href="dashboard.html" class="btn btn-secondary">Retour au profil</a>
+                <button id="logoutBtn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </header>
+
+        <div class="lists-content">
+            <div id="listsContainer" class="lists-container">
+                <!-- Lists will be loaded here -->
+            </div>
+            
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">📋</div>
+                <h3>Aucune liste trouvée</h3>
+                <p>Vous n'avez pas encore créé de listes.</p>
+            </div>
+        </div>
+
+        <div id="messageContainer" class="message-container"></div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/lists.js"></script>
+</body>
+</html>

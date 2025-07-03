@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail de la Liste - ShuffleMyTeam</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/lists.css">
+    <link rel="stylesheet" href="styles/list-detail.css">
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <div class="header-title">
+                <button id="backBtn" class="btn-back">← Retour</button>
+                <h1 id="listTitle">Chargement...</h1>
+            </div>
+            <div class="header-actions">
+                <a href="dashboard.html" class="btn btn-secondary">Profil</a>
+                <button id="logoutBtn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </header>
+
+        <div class="list-detail-content">
+            <!-- List Info Section -->
+            <div id="listInfo" class="list-info-section">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Chargement des informations...</p>
+                </div>
+            </div>
+
+            <!-- Persons Section -->
+            <div id="personsSection" class="persons-section">
+                <div class="section-header">
+                    <h2>Participants</h2>
+                    <span id="personsCount" class="persons-count">0</span>
+                </div>
+                <div id="personsContainer" class="persons-container">
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Chargement des participants...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="messageContainer" class="message-container"></div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/list-detail.js"></script>
+</body>
+</html>
