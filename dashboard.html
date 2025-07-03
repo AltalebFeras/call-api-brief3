@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Compte - ShuffleMyTeam</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1>Mon Compte</h1>
+            <div class="header-actions">
+                <button id="logoutBtn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="profile-section">
+                <h2>Informations du profil</h2>
+                <div id="profileView" class="profile-view">
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <label>Email:</label>
+                            <span id="userEmail">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Prénom:</label>
+                            <span id="userFirstName">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Nom:</label>
+                            <span id="userLastName">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Statut:</label>
+                            <span id="userStatus">-</span>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button id="editProfileBtn" class="btn btn-primary">Modifier le profil</button>
+                        <button id="deleteAccountBtn" class="btn btn-danger">Supprimer le compte</button>
+                    </div>
+                </div>
+
+                <div id="profileEdit" class="profile-edit" style="display: none;">
+                    <form id="editProfileForm">
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input type="email" id="editEmail" name="email" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editFirstName">Prénom</label>
+                                <input type="text" id="editFirstName" name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editLastName">Nom</label>
+                                <input type="text" id="editLastName" name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                            <button type="button" id="cancelEditBtn" class="btn btn-secondary">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="messageContainer" class="message-container"></div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmer la suppression</h3>
+            <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+            <div class="modal-actions">
+                <button id="confirmDeleteBtn" class="btn btn-danger">Supprimer</button>
+                <button id="cancelDeleteBtn" class="btn btn-secondary">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
