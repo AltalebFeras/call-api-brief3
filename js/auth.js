@@ -12,10 +12,15 @@ document.addEventListener('DOMContentLoaded', function() {
     loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.classList.add('loading');
+        
         const formData = new FormData(this);
         const data = Object.fromEntries(formData);
 
         const result = await ApiClient.post(CONFIG.API_ENDPOINTS.LOGIN, data);
+        
+        submitBtn.classList.remove('loading');
         
         if (result.success) {
             showMessage('Connexion réussie !', 'success');
@@ -31,6 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
     registerForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.classList.add('loading');
+        
         const formData = new FormData(this);
         const data = Object.fromEntries(formData);
 
@@ -38,6 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
         data.cgu_accepted = !!data.cgu_accepted;
 
         const result = await ApiClient.post(CONFIG.API_ENDPOINTS.REGISTER, data);
+        
+        submitBtn.classList.remove('loading');
         
         if (result.success) {
             showMessage('Inscription réussie ! Vérifiez votre email.', 'success');

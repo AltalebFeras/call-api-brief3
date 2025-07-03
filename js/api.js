@@ -24,7 +24,33 @@ class ApiClient {
         return headers;
     }
 
+    static showLoader() {
+        let loader = document.getElementById('apiLoader');
+        if (!loader) {
+            loader = document.createElement('div');
+            loader.id = 'apiLoader';
+            loader.className = 'api-loader';
+            loader.innerHTML = `
+                <div class="loader-overlay">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-text">Chargement...</div>
+                </div>
+            `;
+            document.body.appendChild(loader);
+        }
+        loader.style.display = 'flex';
+    }
+
+    static hideLoader() {
+        const loader = document.getElementById('apiLoader');
+        if (loader) {
+            loader.style.display = 'none';
+        }
+    }
+
     static async makeRequest(url, options = {}) {
+        this.showLoader();
+        
         try {
             const response = await fetch(url, {
                 headers: this.getAuthHeaders(),
@@ -50,6 +76,8 @@ class ApiClient {
                 data: { message: 'Erreur de connexion au serveur' },
                 status: 0
             };
+        } finally {
+            this.hideLoader();
         }
     }
 

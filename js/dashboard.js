@@ -60,7 +60,12 @@ function initializeEventListeners() {
 }
 
 async function logout() {
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn.classList.add('loading');
+    
     const result = await ApiClient.post(CONFIG.API_ENDPOINTS.LOGOUT, {});
+    
+    logoutBtn.classList.remove('loading');
     
     ApiClient.removeToken();
     showMessage('Déconnexion réussie', 'success');
@@ -82,10 +87,15 @@ function hideEditForm() {
 async function updateProfile(e) {
     e.preventDefault();
     
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.classList.add('loading');
+    
     const formData = new FormData(this);
     const data = Object.fromEntries(formData);
 
     const result = await ApiClient.post(CONFIG.API_ENDPOINTS.EDIT_PROFILE, data);
+    
+    submitBtn.classList.remove('loading');
     
     if (result.success) {
         showMessage('Profil mis à jour avec succès', 'success');
@@ -109,7 +119,12 @@ function hideDeleteModal() {
 }
 
 async function deleteAccount() {
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    confirmBtn.classList.add('loading');
+    
     const result = await ApiClient.post(CONFIG.API_ENDPOINTS.DELETE_ACCOUNT, {});
+    
+    confirmBtn.classList.remove('loading');
     
     if (result.success) {
         ApiClient.removeToken();
