@@ -95,13 +95,13 @@ class ApiClient {
                 };
             }
             
-            // Handle authentication errors specifically
+            // NEVER automatically remove token here - let calling code decide
             if (response.status === 401) {
-                console.error('Authentication failed - 401 response received');
+                console.warn('Authentication failed - 401 response received');
                 if (data && data.message) {
-                    console.error('Auth error message:', data.message);
+                    console.warn('Auth error message:', data.message);
                 }
-                this.removeToken(); // Remove invalid token
+                console.warn('Token may be invalid, but not removing automatically');
             }
             
             // Update token if provided in response

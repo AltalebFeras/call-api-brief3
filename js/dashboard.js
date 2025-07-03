@@ -10,15 +10,34 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function loadUserProfile() {
+    // Verify token before making request
+    const token = ApiClient.getToken();
+    if (!token) {
+        console.error('No token available for profile request');
+        showMessage('Session expirée, veuillez vous reconnecter', 'error');
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 2000);
+        return;
+    }
+    
     const result = await ApiClient.get(CONFIG.API_ENDPOINTS.PROFILE);
     
     if (result.success) {
         displayUserProfile(result.data.data);
     } else {
-        showMessage('Erreur lors du chargement du profil', 'error');
         if (result.status === 401) {
-            ApiClient.removeToken();
-            window.location.href = 'index.html';
+            console.error('Authentication failed for profile - this is more serious');
+            // Only remove token for profile failures since profile is critical
+            showMessage('Session expirée, reconnexion nécessaire', 'error');
+            setTimeout(() => {
+                if (confirm('Votre session a expiré. Voulez-vous vous reconnecter ?')) {
+                    ApiClient.removeToken();
+                    window.location.href = 'index.html';
+                }
+            }, 2000);
+        } else {
+            showMessage('Erreur lors du chargement du profil: ' + (result.data.message || 'Erreur inconnue'), 'error');
         }
     }
 }

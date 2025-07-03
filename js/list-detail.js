@@ -80,14 +80,35 @@ async function loadListPersons(slug) {
         // According to your wiki, the API returns persons data directly in the data field
         displayPersons(result.data.data || result.data);
     } else {
-        // Handle authentication errors specifically
+        // Handle authentication errors MUCH more carefully
         if (result.status === 401) {
-            console.error('Authentication failed - removing token and redirecting');
-            ApiClient.removeToken();
-            showMessage('Session expirée, veuillez vous reconnecter', 'error');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 2000);
+            console.error('Authentication failed - but giving user options');
+            showMessage('Problème d\'authentification pour cette liste. Cliquez ici pour rafraîchir.', 'warning');
+            
+            // Give user multiple options instead of auto-removing token
+            const messageContainer = document.getElementById('messageContainer');
+            if (messageContainer) {
+                const retryBtn = document.createElement('button');
+                retryBtn.textContent = 'Réessayer';
+                retryBtn.className = 'btn btn-primary';
+                retryBtn.style.marginTop = '10px';
+                retryBtn.onclick = () => {
+                    messageContainer.innerHTML = '';
+                    loadListPersons(slug);
+                };
+                messageContainer.appendChild(retryBtn);
+                
+                const logoutBtn = document.createElement('button');
+                logoutBtn.textContent = 'Se reconnecter';
+                logoutBtn.className = 'btn btn-secondary';
+                logoutBtn.style.marginTop = '10px';
+                logoutBtn.style.marginLeft = '10px';
+                logoutBtn.onclick = () => {
+                    ApiClient.removeToken();
+                    window.location.href = 'index.html';
+                };
+                messageContainer.appendChild(logoutBtn);
+            }
             return;
         }
         

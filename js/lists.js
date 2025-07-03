@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Check authentication
+    // Check authentication with detailed logging
+    const token = ApiClient.getToken();
+    console.log('Lists page - Token present:', !!token);
+    
     if (!ApiClient.isAuthenticated()) {
+        console.log('No authentication found, redirecting to login');
         window.location.href = 'index.html';
         return;
     }
@@ -30,6 +34,18 @@ async function logout() {
 
 async function loadUserLists() {
     console.log('Loading user lists from:', CONFIG.API_ENDPOINTS.MY_LISTS);
+    
+    // Verify token before making request
+    const token = ApiClient.getToken();
+    if (!token) {
+        console.error('No token available for lists request');
+        showMessage('Session expirée, veuillez vous reconnecter', 'error');
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 2000);
+        return;
+    }
+    
     const result = await ApiClient.get(CONFIG.API_ENDPOINTS.MY_LISTS);
     
     console.log('Lists API response:', result);
@@ -38,10 +54,23 @@ async function loadUserLists() {
         // Your controller returns data directly in 'data' field
         displayLists(result.data.data || result.data);
     } else {
-        showMessage('Erreur lors du chargement des listes', 'error');
+        // Handle specific error cases - but be VERY careful about removing token
         if (result.status === 401) {
-            ApiClient.removeToken();
-            window.location.href = 'index.html';
+            console.error('Authentication failed for lists - but NOT removing token yet');
+            showMessage('Problème d\'authentification. Veuillez actualiser la page.', 'warning');
+            
+            // Give user option to retry instead of auto-redirecting
+            setTimeout(() => {
+                if (confirm('Problème d\'authentification détecté. Voulez-vous vous reconnecter ?')) {
+                    ApiClient.removeToken();
+                    window.location.href = 'index.html';
+                }
+            }, 3000);
+        } else if (result.status === 0) {
+            // Network error
+            showMessage('Erreur de connexion au serveur. Vérifiez votre connexion.', 'error');
+        } else {
+            showMessage('Erreur lors du chargement des listes: ' + (result.data.message || 'Erreur inconnue'), 'error');
         }
     }
 }
@@ -135,11 +164,20 @@ async function loadListPersons(slug, container) {
     if (result.success) {
         displayPersons(result.data.persons, container);
     } else {
-        container.innerHTML = `
-            <div class="no-persons">
-                Erreur lors du chargement des participants
-            </div>
-        `;
+        // Don't remove token for list-specific errors
+        if (result.status === 404) {
+            container.innerHTML = `
+                <div class="no-persons">
+                    Liste non trouvée ou vide
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="no-persons">
+                    Erreur lors du chargement des participants
+                </div>
+            `;
+        }
     }
 }
 
