@@ -2,7 +2,7 @@
 const CONFIG = {
     // API_DOMAIN: 'https://localhost:8000', 
     // API_DOMAIN: 'http://193.134.250.16',
-    API_DOMAIN: '', // Change this to your actual domain
+    API_DOMAIN: '', 
     API_ENDPOINTS: {
         HOME: '/api/home',
         REGISTER: '/api/register',
