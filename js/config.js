@@ -1,8 +1,8 @@
 // Configuration file - Change this domain to match your API
 const CONFIG = {
     // API_DOMAIN: "https://localhost:8000",
-    API_DOMAIN: "http://193.134.250.16",
-    // API_DOMAIN: "",
+    // API_DOMAIN: "http://193.134.250.16",
+    API_DOMAIN: "",
     API_ENDPOINTS: {
     HOME: "/api/home",
     REGISTER: "/api/register",
